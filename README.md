@@ -116,9 +116,6 @@
         String name = opt.get(); //NoSuchElementException
 
 ### Ref
+* https://www.oracle.com/technical-resources/articles/java/java8-optional.html
 * https://www.baeldung.com/java-optional
-
-
-
-
 
