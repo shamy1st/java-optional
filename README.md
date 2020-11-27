@@ -44,6 +44,80 @@
         Optional<String> opt = Optional.ofNullable(name);
         opt.ifPresent(value -> System.out.println(value.length()));
 
+### orElse()
+
+        String maybeNull = null;
+        String name = Optional.ofNullable(maybeNull).orElse("ahmed");
+        System.out.println(name); //ahmed
+
+        String maybeNull = "mohamed";
+        String name = Optional.ofNullable(maybeNull).orElse("ahmed");
+        System.out.println(name); //mohamed
+
+### orElseGet()
+* orElseGet() method is similar to orElse()
+* however, instead of taking a value to return if the Optional value is not present
+* it takes a supplier functional interface, which is invoked and returns the value of the invocation
+
+        String maybeNull = null;
+        String name = Optional.ofNullable(maybeNull).orElseGet(() -> "ahmed");
+        System.out.println(name); //ahmed
+
+        String maybeNull = "mohamed";
+        String name = Optional.ofNullable(maybeNull).orElseGet(() -> "ahmed");
+        System.out.println(name); //mohamed
+
+### orElse() vs orElseGet()
+* if the value presented the orElse() method is called, but orElseGet() will not.
+* so, orElseGet() is more efficient.
+
+        public class Main {
+            public static String getDefaultName(String value) {
+                System.out.println("call from: " + value);
+                return "default-name";
+            }
+
+            public static void main(String[] args) {
+                String name = "ahmed";
+                String defaultName = Optional.ofNullable(name).orElseGet(() -> getDefaultName("orElseGet"));
+                System.out.println(defaultName); // ahmed, getDefaultName() method not called
+            }
+        }
+
+        public class Main {
+            public static String getDefaultName(String value) {
+                System.out.println("call from: " + value);
+                return "default-name";
+            }
+
+            public static void main(String[] args) {
+                String name = "ahmed";
+                String defaultName = Optional.ofNullable(name).orElse(getDefaultName("orElseGet")); // call from: orElseGet
+                System.out.println(defaultName); // ahmed, getDefaultName() is called
+            }
+        }
+
+### orElseThrow()
+* Instead of returning a default value when the wrapped value is not present, it throws an exception.
+
+        String nullName = null;
+        String name = Optional.ofNullable(nullName).orElseThrow(IllegalArgumentException::new);
+
+* Java 10 introduced a simplified no-arg version of orElseThrow() method. 
+* In case of an empty Optional it throws a NoSuchElelementException
+
+        String nullName = null;
+        String name = Optional.ofNullable(nullName).orElseThrow(); //NoSuchElementException
+
+### get()
+* return a value if the wrapped object is not null; otherwise, it throws a no such element exception
+
+        Optional<String> opt = Optional.ofNullable(null);
+        String name = opt.get(); //NoSuchElementException
+
+### Ref
+* https://www.baeldung.com/java-optional
+
 
 
 
